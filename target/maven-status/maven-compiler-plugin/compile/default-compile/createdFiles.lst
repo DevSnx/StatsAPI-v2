@@ -1,0 +1,5 @@
+de/devsnx/statsapi/listener/PlayerQuitListener.class
+de/devsnx/statsapi/listener/PlayerJoinListener.class
+de/devsnx/statsapi/commands/StatsCommand.class
+de/devsnx/statsapi/manager/Stats.class
+de/devsnx/statsapi/StatsAPI.class

@@ -1,5 +1,7 @@
 package de.devsnx.statsapi;
 
+import de.devsnx.statsapi.database.MySQL;
+import de.devsnx.statsapi.database.SQLLite;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -8,21 +10,31 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public final class StatsAPI extends JavaPlugin {
 
-    public static StatsAPI statsAPI;
+    public static StatsAPI instance;
+    public static MySQL mySQL;
+    public static SQLLite sqlLite;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
-        statsAPI = this;
+        instance = this;
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        statsAPI = null;
+        instance = null;
     }
 
-    public static StatsAPI getStatsAPI() {
-        return statsAPI;
+    public static StatsAPI getInstance() {
+        return instance;
+    }
+
+    public static SQLLite getSqlLite() {
+        return sqlLite;
+    }
+
+    public static MySQL getMySQL() {
+        return mySQL;
     }
 }

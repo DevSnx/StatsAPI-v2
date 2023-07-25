@@ -1,0 +1,52 @@
+################################################
+#                                              #
+#                 StatsAPI v2                  #
+#                Made by DevSnx                #
+#                                              #
+################################################
+
+Database:
+  # Type: sqlite for flatfile, and mysql for an external database.
+  Type: 'sqlite'
+  # Only edit if Type is 'mysql' or 'mongodb'.
+  mysql:
+    # name of your database
+    Database: 'statsapi'
+    # ip of your MySQL database
+    Host: 'localhost'
+    # port of your MySQL/Mongodb database, commonly is 3306/27017
+    Port: 3306
+    # username of your MySQL database
+    Username: 'user'
+    # password of your MySQL database
+    Password: 'root'
+    # use SSL or NOT in MySQL database connection
+    UseSSL: false
+
+# Settings
+command:
+  enable: true
+  # If set to true players will need a permission to use the command /stats
+  userpermissions:
+    enable: true
+    permission: statsapi.stats
+
+Check-For-Updates:
+  # The name says it...
+  Enable: true
+  # Auto download new updates
+  Auto-Download: false
+
+# Change the Messages for /stats
+message:
+  no_permissions: 'no permissions for this command'
+  no_uuid: 'the player %PLAYER% not exists'
+  no_stats: 'No stats avaible'
+  stats_from_me:
+    - 'My Stats'
+    - 'Kills: %KILLS%'
+    - 'Deaths: %DEATHS%'
+  stats_from_other:
+    - 'Stats from %PLAYER%'
+    - 'Kills: %KILLS%'
+    - 'Deaths: %DEATHS%'

@@ -1,9 +1,11 @@
 package de.devsnx.statsapi.listener;
 
 
+import org.bukkit.event.Listener;
+
 /**
  * @author DevSnx
  * @since 24.07.2023
  */
-public class PlayerQuitListener {
+public class PlayerQuitListener implements Listener {
 }

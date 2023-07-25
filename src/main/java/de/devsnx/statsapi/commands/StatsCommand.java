@@ -6,8 +6,12 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.UUID;
+
+/**
+ * @author DevSnx
+ * @since 25.07.2023
+ */
 
 public class StatsCommand implements CommandExecutor {
 

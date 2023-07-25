@@ -1,0 +1,5 @@
+name: StatsAPI-v2
+version: '1.0.0-SNAPSHOT'
+main: de.devsnx.statsapi.StatsAPI
+api-version: '1.20'
+authors: [DevSnx]

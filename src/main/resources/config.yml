@@ -1,39 +1,39 @@
-##################################
-#                                #
-#     Configuration StatsAPI     #
-#          DevSnx   v2           #
-#                                #
-##################################
+################################################
+#                                              #
+#                 StatsAPI v2                  #
+#                Made by DevSnx                #
+#                                              #
+################################################
 
-# for Mysql use: mysql
-# for sqllite use: sqllite
-savetyp: mysql
+database:
+  # Type: sqlite for flatfile, and mysql for an external database.
+  Type: 'sqlite'
+  # Only edit if Type is 'mysql' or 'mongodb'.
+  mysql:
+    # name of your database
+    database: 'statsapi'
+    # ip of your MySQL database
+    host: 'localhost'
+    # port of your MySQL/Mongodb database, commonly is 3306/27017
+    port: 3306
+    # username of your MySQL database
+    username: 'user'
+    # password of your MySQL database
+    password: 'root'
+    # use SSL or NOT in MySQL database connection
+    useSSL: false
 
-# database login settings
-databse:
-  host: localhost
-  port: 3306
-  user: statsapi
-  password: statsapi
-  database: statsapi
-
-# Settings
 command:
-# disable or enable the /stats and /stats <Player> command
-  stats: enable
+  enable: true
+  # If set to true players will need a permission to use the command /stats
+  userpermissions:
+    enable: true
+    permission: statsapi.stats
 
-# enable or disable the permissions for use the commands
-permissions: enable
-permission:
-  stats_from_me: stats.me
-  stats_from_other: stats.other
-
-# Change the Messages for /stats
 message:
   no_permissions: 'no permissions for this command'
   no_uuid: 'the player %PLAYER% not exists'
-  no_stats_from_me: 'No stats avaible'
-  no_stats_from_other: 'No stats avaible from %PLAYER%'
+  no_stats: 'No stats avaible'
   stats_from_me:
     - 'My Stats'
     - 'Kills: %KILLS%'

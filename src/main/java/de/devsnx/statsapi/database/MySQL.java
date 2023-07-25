@@ -1,140 +1,42 @@
 package de.devsnx.statsapi.database;
 
-import de.devsnx.statsapi.StatsAPI;
-import de.devsnx.statsapi.database.utils.AsyncHandler;
-import de.devsnx.statsapi.database.utils.DatabaseTyp;
-import de.devsnx.statsapi.database.utils.StayAliveTask;
-import de.devsnx.statsapi.database.utils.Updater;
-import java.sql.*;
+import de.devsnx.statsapi.database.utils.AsyncDatabase;
+import de.devsnx.statsapi.database.utils.Callback;
+import org.bukkit.plugin.Plugin;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  * @author DevSnx
- * @since 24.07.2023
+ * @since 25.07.2023
  */
-public class MySQL {
 
-    private String host;
-    private String port;
-    private String user;
-    private String pass;
-    private String database;
-    private Connection conn;
-    private final StayAliveTask aliveTask;
-    private final AsyncHandler asyncHandler;
-    private final Updater updater;
+public class MySQL extends SQL {
 
-    public MySQL(String host, String port, String user, String pass, String database) {
-        this.host = host;
-        this.port = port;
-        this.user = user;
-        this.pass = pass;
-        this.database = database;
-        this.aliveTask = new StayAliveTask(DatabaseTyp.MYSQL);
-        this.asyncHandler = new AsyncHandler();
-        this.updater = new Updater();
+    public MySQL(Plugin plugin) {
+        super(plugin);
     }
 
-    public boolean openConnection() {
+    public AsyncDatabase connect(String host, int port, String database, String user, String password, Boolean useSSL, Callback<String> callback) {
         try {
-            if ((this.conn != null) && (!this.conn.isClosed())) {
-                return false;
-            }
             Class.forName("com.mysql.jdbc.Driver");
-            this.conn = DriverManager.getConnection("jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database + "?useSSL=false", this.user, this.pass);
-            this.aliveTask.setActive(true);
-            this.aliveTask.start();
-            this.updater.setActive(true);
-            this.updater.start();
-            return true;
-        } catch (Exception e) {
-            StatsAPI.getInstance().getLogger().warning("Verbindung konnte nicht geöffnet werden: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            callback.handle(e, null);
+            return this;
         }
-        return false;
-    }
 
-    public Connection getConnection() {
         try {
-            if ((this.conn == null) || (this.conn.isClosed())) {
-                openConnection();
-            }
-        } catch (Exception localException) {
-        }
-        return this.conn;
-    }
-
-    public void closeConnection() {
-        try {
-            if ((this.conn != null) && (!this.conn.isClosed())) {
-                this.conn.close();
-                this.conn = null;
-                this.aliveTask.setActive(false);
-            }
-        } catch (Exception e) {
-            StatsAPI.getInstance().getLogger().warning("Verbindung konnte nicht geschlossen werden: " + e.getMessage());
-        }
-    }
-
-    public void close(PreparedStatement st, ResultSet rs) {
-        try {
-            if (st != null) {
-                st.close();
-            }
-            if (rs != null) {
-                rs.close();
-            }
-        } catch (Exception localException) {
-        }
-    }
-
-    public void executeUpdate(String statement) {
-        try {
-            PreparedStatement st = this.conn.prepareStatement(statement);
-            st.executeUpdate();
-            close(st, null);
-        } catch (Exception e) {
-            StatsAPI.getInstance().getLogger().warning("executeUpdate konnte nicht ausgeführt werden: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    public void executeUpdate(PreparedStatement statement) {
-        try {
-            statement.executeUpdate();
-            close(statement, null);
-        } catch (Exception e) {
-            StatsAPI.getInstance().getLogger().warning("executeUpdate konnte nicht ausgeführt werden: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    public ResultSet executeQuery(String statement) {
-        try {
-            PreparedStatement st = this.conn.prepareStatement(statement);
-            return st.executeQuery();
-        } catch (Exception e) {
-            StatsAPI.getInstance().getLogger().warning("executeQuery konnte nicht ausgeführt werden: " + e.getMessage());
-        }
-        return null;
-    }
-
-    public ResultSet executeQuery(PreparedStatement statement) {
-        try {
-            return statement.executeQuery();
+            conn = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database
+                    + "?autoReconnect=true&useSSL=" + useSSL, user, password);
+            callback.handle(null, null);
         } catch (SQLException e) {
-            StatsAPI.getInstance().getLogger().warning("executeQuery konnte nicht ausgeführt werden: " + e.getMessage());
+            callback.handle(e, null);
         }
-        return null;
+        return this;
     }
 
-    public AsyncHandler getAsyncHandler() {
-        return this.asyncHandler;
-    }
-
-    public StayAliveTask getAliveTask() {
-        return this.aliveTask;
-    }
-
-    public Updater getUpdater() {
-        return this.updater;
+    @Override
+    public AsyncDatabase connect(String host, int port, String database, String user, String password, Callback<String> callback) {
+        return this.connect(host, port, database, user, password, true, callback);
     }
 }

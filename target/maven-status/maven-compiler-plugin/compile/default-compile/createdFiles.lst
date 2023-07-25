@@ -1,0 +1,12 @@
+de\devsnx\statsapi\database\utils\AsyncDatabase.class
+de\devsnx\statsapi\database\DatabaseHandler.class
+de\devsnx\statsapi\database\SQL.class
+de\devsnx\statsapi\StatsAPI.class
+de\devsnx\statsapi\database\MySQL.class
+de\devsnx\statsapi\commands\StatsCommand.class
+de\devsnx\statsapi\database\SQLite.class
+de\devsnx\statsapi\database\utils\PluginTask.class
+de\devsnx\statsapi\manager\PlayerAPI.class
+de\devsnx\statsapi\listener\PlayerJoinListener.class
+de\devsnx\statsapi\database\utils\Callback.class
+de\devsnx\statsapi\listener\PlayerQuitListener.class
